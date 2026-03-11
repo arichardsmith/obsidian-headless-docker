@@ -1,10 +1,11 @@
 services:
     obsidian-headless:
-        build: .
+        build:
+            context: .
+            args:
+                UID: ${UID:-1000}
+                GID: ${GID:-1000}
         image: obsidian-headless
         volumes:
-            - obsidian-config:/root/.config/obsidian-headless
-            - ${VAULT_PATH:-./vault}:/vault
-
-volumes:
-    obsidian-config:
+            - ${CONFIG_PATH}:/home/obsidian/.config/obsidian-headless
+            - ${VAULT_PATH}:/vault

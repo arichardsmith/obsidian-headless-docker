@@ -9,7 +9,20 @@ Runs [obsidian-headless](https://github.com/obsidianmd/obsidian-headless) in a c
 
 ## Setup
 
-### 1. Build the image
+### 1. Configure your environment
+
+Create a `.env` file in the same directory as `compose.yaml`:
+
+```sh
+VAULT_PATH=/absolute/path/to/your/vault
+CONFIG_PATH=/absolute/path/to/config
+UID=1000
+GID=1000
+```
+
+Replace `UID` and `GID` with the output of `id -u` and `id -g` for your user. `CONFIG_PATH` is where login credentials and sync configuration will be stored.
+
+### 2. Build the image
 
 ```sh
 docker compose build
@@ -58,6 +71,6 @@ docker compose logs -f
 
 ## Notes
 
-- The vault defaults to `./vault` relative to `compose.yaml`. To use a different path, set `VAULT_PATH` in a `.env` file or in your environment before running any `docker compose` commands.
-- Login credentials and sync configuration are persisted in a named Docker volume (`obsidian-config`). You only need to run the setup steps once.
+- Login credentials and sync configuration are stored at `CONFIG_PATH`. This directory will be created if it does not exist and should be added to `.gitignore` if inside your project directory.
+- You only need to run the setup steps once as long as `CONFIG_PATH` is preserved.
 - If you need to log out and log back in, run `docker compose run --rm --entrypoint ob obsidian-headless logout` before repeating step 3.
