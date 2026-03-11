@@ -1,0 +1,10 @@
+services:
+    obsidian-headless:
+        build: .
+        image: obsidian-headless
+        volumes:
+            - obsidian-config:/root/.config/obsidian-headless
+            - ${VAULT_PATH:-./vault}:/vault
+
+volumes:
+    obsidian-config:
